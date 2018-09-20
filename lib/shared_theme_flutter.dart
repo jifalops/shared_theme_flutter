@@ -1,71 +1,46 @@
+/// It is recommended you import this library as 'shared', or as 'sh' if using
+/// it heavily.
 library shared_theme_flutter;
 
 import 'package:flutter/material.dart';
 import 'package:shared_theme/shared_theme.dart' as sh;
+import 'package:shared_theme_flutter/src/util.dart';
+
+export 'package:shared_theme/shared_theme.dart';
+export 'package:shared_theme_flutter/src/util.dart';
 
 ThemeData buildTheme(sh.Theme t) {
   final base = t.brightness == sh.Brightness.light
       ? ThemeData.light()
       : ThemeData.dark();
   return base.copyWith(
-    accentColor: Color(t.colors.secondary.color.argb),
-    primaryColor: Color(t.colors.primary.color.argb),
-    buttonColor: Color(t.colors.surface.color.argb),
-    scaffoldBackgroundColor: Color(t.colors.background.color.argb),
-    cardColor: Color(t.colors.surface.color.argb),
-    textSelectionColor: Color(t.colors.primaryLight.color.argb),
-    errorColor: Color(t.colors.error.color.argb),
-    dividerColor: Color(t.colors.divider.color.argb),
-    backgroundColor: Color(t.colors.background.color.argb),
-    primaryColorDark: Color(t.colors.primaryDark.color.argb),
-    primaryColorLight: Color(t.colors.primaryLight.color.argb),
-    textSelectionHandleColor: Color(t.colors.primaryDark.color.argb),
-    buttonTheme: ButtonThemeData(
-      shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.all(Radius.circular(t.buttonCornerRadius))),
-    ),
-    inputDecorationTheme: t.inputTheme == ref.InputTheme.outline
-        ? InputDecorationTheme(border: OutlineInputBorder())
-        : base.inputDecorationTheme,
-    textTheme: _buildTextTheme(base.textTheme, t),
-    primaryTextTheme: _buildTextTheme(base.primaryTextTheme, t),
-    accentTextTheme: _buildTextTheme(base.accentTextTheme, t),
+    primaryColor: getColor(t.colors.primary),
+    primaryColorLight: getColor(t.colors.primaryLight),
+    primaryColorDark: getColor(t.colors.primaryDark),
+    accentColor: getColor(t.colors.secondary),
+    indicatorColor: getColor(t.colors.secondary),
+    backgroundColor: getColor(t.colors.background),
+    scaffoldBackgroundColor: getColor(t.colors.background),
+    cardColor: getColor(t.colors.surface),
+    dialogBackgroundColor: getColor(t.colors.surface),
+    dividerColor: getColor(t.colors.divider),
+    errorColor: getColor(t.colors.error),
+    textSelectionColor: getColor(t.colors.primaryLight),
+    textSelectionHandleColor: getColor(t.colors.primaryDark),
+
+    /// Default color for [RaisedButton]s
+    buttonColor: color(t.elements.primaryButton.color),
+    buttonTheme: buttonTheme(t, t.elements.primaryButton),
+    inputDecorationTheme: inputDecorationTheme(t.elements.inputBase),
+    textTheme: textTheme(base.textTheme, t),
+    primaryTextTheme: textTheme(base.primaryTextTheme, t),
+    accentTextTheme: textTheme(base.accentTextTheme, t),
+
+    // TODO
+    // chipTheme: ,
+    // selectedRowColor: getColor(t.colors.divider),
+
   );
-}
-
-TextTheme _buildTextTheme(TextTheme base, ref.Theme t) => base.copyWith(
-    display4: _makeStyle(base.display4, t.display4),
-    display3: _makeStyle(base.display3, t.display3),
-    display2: _makeStyle(base.display2, t.display2),
-    display1: _makeStyle(base.display1, t.display1),
-    headline: _makeStyle(base.headline, t.headline),
-    title: _makeStyle(base.title, t.title),
-    subhead: _makeStyle(base.subhead, t.subhead),
-    body2: _makeStyle(base.body2, t.body2),
-    body1: _makeStyle(base.body1, t.body1),
-    button: _makeStyle(base.button, t.button),
-    caption: _makeStyle(base.caption, t.caption));
-
-TextStyle _makeStyle(TextStyle base, ref.Font f) => base.copyWith(
-    fontFamily: f.family,
-    color: Color(f.color.argb),
-    fontWeight: _weight(f.weight),
-    fontStyle: f.italic ? FontStyle.italic : FontStyle.normal,
-    decoration: f.underline ? TextDecoration.underline : TextDecoration.none,
-    height: f.height,
-    fontSize: f.size);
-
-FontWeight _weight(int w) {
-  if (w < 200) return FontWeight.w100;
-  if (w < 300) return FontWeight.w200;
-  if (w < 400) return FontWeight.w300;
-  if (w < 500) return FontWeight.w400;
-  if (w < 600) return FontWeight.w500;
-  if (w < 700) return FontWeight.w600;
-  if (w < 800) return FontWeight.w700;
-  if (w < 900) return FontWeight.w800;
-  return FontWeight.w900;
 }
 
 class PrimaryButton extends RaisedButton {

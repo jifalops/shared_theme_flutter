@@ -1,0 +1,22 @@
+name: shared_theme_flutter
+description: Share a theme between Flutter and Web.
+version: 0.0.1
+author: Jacob Phillips <jifalops@gmail.com>
+homepage: https://github.com/jifalops/shared_theme_flutter
+
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+
+dependencies:
+  shared_theme:
+    path: ../shared_theme
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# The following section is specific to Flutter.
+flutter:
+

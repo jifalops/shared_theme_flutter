@@ -1,5 +1,5 @@
-/// It is recommended you import this library as 'shared', or as 'sh' if using
-/// it heavily.
+/// It is recommended you import this library using the `as` directive, e.g.
+/// `import 'package:shared_theme_flutter/shared_theme_flutter' as themer;`
 library shared_theme_flutter;
 
 import 'package:flutter/material.dart';
@@ -9,11 +9,17 @@ import 'package:shared_theme_flutter/src/util.dart';
 export 'package:shared_theme/shared_theme.dart';
 export 'package:shared_theme_flutter/src/util.dart';
 
-ThemeData buildTheme(sh.Theme t) {
+/// Sets the default theme.
+void setTheme(sh.Theme theme) => currentTheme = theme;
+sh.Theme currentTheme;
+
+ThemeData themeData(sh.Theme t,
+    [TargetPlatform platform = TargetPlatform.android]) {
   final base = t.brightness == sh.Brightness.light
       ? ThemeData.light()
       : ThemeData.dark();
   return base.copyWith(
+    platform: platform,
     primaryColor: getColor(t.colors.primary),
     primaryColorLight: getColor(t.colors.primaryLight),
     primaryColorDark: getColor(t.colors.primaryDark),
@@ -39,47 +45,27 @@ ThemeData buildTheme(sh.Theme t) {
     // TODO
     // chipTheme: ,
     // selectedRowColor: getColor(t.colors.divider),
-
   );
 }
 
-class PrimaryButton extends RaisedButton {
-  PrimaryButton(BuildContext context, String text, void Function() onPressed,
-      ref.Theme theme,
-      {Color color, Color textColor})
-      : super(
-          elevation: 8.0,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: Text(
-              text,
-              style: Theme.of(context).textTheme.button.copyWith(
-                  color: textColor ?? Color(theme.onPrimaryButtonColor.argb),
-                  fontSize: 16.0),
-            ),
-          ),
-          color: color ?? Color(theme.primaryButtonColor.argb),
-          onPressed: onPressed,
-        );
+/// Get the current theme's primary button, using [text] if [child] is null.
+Widget primaryButton(void Function() onPressed, {String text, Widget child}) {
+  return buttonWidget(currentTheme.elements.primaryButton, onPressed,
+      child: child, text: text);
 }
 
-class SecondaryButton extends FlatButton {
-  SecondaryButton(BuildContext context, String text, void Function() onPressed,
-      ref.Theme theme)
-      : super(
-            color: Color(theme.secondaryButtonColor.argb),
-            child: Text(text,
-                style: Theme.of(context)
-                    .textTheme
-                    .button
-                    .copyWith(color: Color(theme.onSecondaryButtonColor.argb))),
-            onPressed: onPressed);
+/// Get the current theme's secondary button, using [text] if [child] is null.
+Widget secondaryButton(void Function() onPressed, {String text, Widget child}) {
+  return buttonWidget(currentTheme.elements.secondaryButton, onPressed,
+      child: child, text: text);
 }
 
-class TertiaryButton extends FlatButton {
-  TertiaryButton(String text, onPressed)
-      : super(
-            child: Text(text),
-            onPressed: onPressed,
-            padding: EdgeInsets.all(2.0));
+/// Get the current theme's tertiary button, using [text] if [child] is null.
+Widget tertiaryButton(void Function() onPressed, {String text, Widget child}) {
+  return buttonWidget(currentTheme.elements.tertiaryButton, onPressed,
+      child: child, text: text);
 }
+
+/// Get a widget based on [currentTheme.elements.inputBase].
+Widget inputWidget(Widget input) =>
+    wrap(input, currentTheme.elements.inputBase.margin);

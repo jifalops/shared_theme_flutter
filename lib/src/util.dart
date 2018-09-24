@@ -69,15 +69,17 @@ BorderRadius borderRadius(sh.Border border, [BorderRadius fallback]) =>
 Radius radius(sh.BorderRadius radius) =>
     radius == null ? Radius.zero : Radius.elliptical(radius.x, radius.y);
 
+/// Uses the Element's font to create a labelStyle.
 InputDecorationTheme inputDecorationTheme(sh.Element input,
         [InputDecorationTheme fallback]) =>
     InputDecorationTheme(
-      border: inputBorder(input.border, fallback.border),
-      contentPadding: edgeInsets(input.padding, fallback.contentPadding),
-      fillColor: color(input.color, fallback.fillColor),
+      border: inputBorder(input.border, fallback?.border),
+      contentPadding: edgeInsets(input.padding, fallback?.contentPadding),
+      fillColor: color(input.color, fallback?.fillColor),
       filled: input.color == null
-          ? fallback.filled
+          ? fallback?.filled ?? false
           : input.color != sh.Colors.transparent,
+      labelStyle: textStyle(input.font, fallback?.labelStyle),
     );
 
 InputBorder inputBorder(sh.Border border, [InputBorder fallback]) =>
@@ -106,6 +108,7 @@ TextTheme textTheme(TextTheme base, sh.Theme t) => base.copyWith(
 
 TextStyle textStyle(sh.Font font, [TextStyle base]) {
   base ??= TextStyle();
+  if (font == null) return base;
   return base.copyWith(
       fontFamily: font.family ?? base.fontFamily,
       color: color(font.color, base.color),

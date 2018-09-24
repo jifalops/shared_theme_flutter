@@ -47,10 +47,12 @@ ShapeBorder shapeBorder(sh.Element el, [ShapeBorder fallback]) =>
                 left: borderSide(el.border.left),
               );
 
-BorderSide borderSide(sh.BorderSide side) => BorderSide(
-    width: side.width,
-    style: borderStyle(side.style),
-    color: color(side.color));
+BorderSide borderSide(sh.BorderSide side) => side == null
+    ? BorderSide.none
+    : BorderSide(
+        width: side.width,
+        style: borderStyle(side.style),
+        color: color(side.color));
 
 BorderStyle borderStyle(sh.BorderStyle style) =>
     style == sh.BorderStyle.solid ? BorderStyle.solid : BorderStyle.none;
@@ -64,7 +66,8 @@ BorderRadius borderRadius(sh.Border border, [BorderRadius fallback]) =>
             bottomRight: radius(border.bottomRight),
             bottomLeft: radius(border.bottomLeft));
 
-Radius radius(sh.BorderRadius radius) => Radius.elliptical(radius.x, radius.y);
+Radius radius(sh.BorderRadius radius) =>
+    radius == null ? Radius.zero : Radius.elliptical(radius.x, radius.y);
 
 InputDecorationTheme inputDecorationTheme(sh.Element input,
         [InputDecorationTheme fallback]) =>

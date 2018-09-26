@@ -1,8 +1,11 @@
 // For a complete working example, see https://github.com/jifalops/shared_theme/example
 import 'package:flutter/material.dart';
-import 'package:sharedtheme_example/config.dart' show appName;
-import 'package:sharedtheme_example/themes.dart' show themeset;
+// import 'package:sharedtheme_example/config.dart' show appName;
+// import 'package:sharedtheme_example/themes.dart' show themeset;
 import 'package:shared_theme_flutter/shared_theme_flutter.dart' as themer;
+
+const appName = 'Dummy Example';
+final themeset = themer.ThemeSet(themes: []);
 
 void main() => runApp(App());
 

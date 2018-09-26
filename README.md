@@ -1,9 +1,5 @@
 # shared_theme_flutter
 
-A new flutter package project.
+Flutter plugin to easily share a theme between Flutter and the web.
 
-## Getting Started
-
-For help getting started with Flutter, view our online [documentation](https://flutter.io/).
-
-For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
+For more information see the `shared_theme` [pub package](https://pub.dartlang.org/packages/shared_theme) or [github repo](https://github.com/jifalops/shared_theme).

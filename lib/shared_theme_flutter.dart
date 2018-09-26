@@ -1,3 +1,5 @@
+/// Flutter plugin to easily share a theme between Flutter and the web.
+///
 /// It is recommended you import this library using the `as` directive, e.g.
 /// `import 'package:shared_theme_flutter/shared_theme_flutter' as themer;`
 library shared_theme_flutter;
@@ -9,34 +11,35 @@ import 'package:shared_theme_flutter/src/util.dart';
 export 'package:shared_theme/shared_theme.dart';
 export 'package:shared_theme_flutter/src/util.dart';
 
-/// Sets the default theme.
+/// Sets the current theme, which is used by [primaryButton()], [secondaryButton()],
+/// [tertiaryButton()], and [wrapInput()].
 void setTheme(sh.Theme theme) => _currentTheme = theme;
 sh.Theme get currentTheme => _currentTheme;
 sh.Theme _currentTheme;
 
+/// Transform a shared_theme's Theme into Flutter's ThemeData.
 ThemeData themeData(sh.Theme t, [TargetPlatform platform]) {
   final base = t.brightness == sh.Brightness.light
       ? ThemeData.light()
       : ThemeData.dark();
   return base.copyWith(
     platform: platform ?? base.platform,
-    primaryColor: getColor(t.colors.primary, base.primaryColor),
-    primaryColorLight: getColor(t.colors.primaryLight, base.primaryColorLight),
-    primaryColorDark: getColor(t.colors.primaryDark, base.primaryColorDark),
-    accentColor: getColor(t.colors.secondary, base.accentColor),
-    indicatorColor: getColor(t.colors.indicator, base.indicatorColor),
-    backgroundColor: getColor(t.colors.background, base.backgroundColor),
+    primaryColor: colorOf(t.colors.primary, base.primaryColor),
+    primaryColorLight: colorOf(t.colors.primaryLight, base.primaryColorLight),
+    primaryColorDark: colorOf(t.colors.primaryDark, base.primaryColorDark),
+    accentColor: colorOf(t.colors.secondary, base.accentColor),
+    indicatorColor: colorOf(t.colors.indicator, base.indicatorColor),
+    backgroundColor: colorOf(t.colors.background, base.backgroundColor),
     scaffoldBackgroundColor:
-        getColor(t.colors.background, base.scaffoldBackgroundColor),
-    cardColor: getColor(t.colors.surface, base.cardColor),
-    dialogBackgroundColor:
-        getColor(t.colors.surface, base.dialogBackgroundColor),
-    dividerColor: getColor(t.colors.divider, base.dividerColor),
-    errorColor: getColor(t.colors.error, base.errorColor),
+        colorOf(t.colors.scaffold, base.scaffoldBackgroundColor),
+    cardColor: colorOf(t.colors.card, base.cardColor),
+    dialogBackgroundColor: colorOf(t.colors.dialog, base.dialogBackgroundColor),
+    dividerColor: colorOf(t.colors.divider, base.dividerColor),
+    errorColor: colorOf(t.colors.error, base.errorColor),
     textSelectionColor:
-        getColor(t.colors.primaryLight, base.textSelectionColor),
+        colorOf(t.colors.textSelection, base.textSelectionColor),
     textSelectionHandleColor:
-        getColor(t.colors.primaryDark, base.textSelectionHandleColor),
+        colorOf(t.colors.textSelectionHandle, base.textSelectionHandleColor),
 
     /// Default color for [RaisedButton]s
     buttonColor: color(t.elements.primaryButton.color, base.buttonColor),
@@ -47,13 +50,10 @@ ThemeData themeData(sh.Theme t, [TargetPlatform platform]) {
     primaryTextTheme: textTheme(base.primaryTextTheme, t),
     accentTextTheme: textTheme(base.accentTextTheme, t),
 
-    selectedRowColor: getColor(t.colors.selectedRow, base.selectedRowColor),
-    highlightColor: getColor(t.colors.highlight, base.highlightColor),
-    hintColor: getColor(t.colors.hint, base.hintColor),
-    splashColor: getColor(t.colors.splash, base.splashColor),
-
-    // TODO
-    // chipTheme: ,
+    selectedRowColor: colorOf(t.colors.selectedRow, base.selectedRowColor),
+    highlightColor: colorOf(t.colors.highlight, base.highlightColor),
+    hintColor: colorOf(t.colors.hint, base.hintColor),
+    splashColor: colorOf(t.colors.splash, base.splashColor),
   );
 }
 

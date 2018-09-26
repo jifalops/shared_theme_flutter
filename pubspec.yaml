@@ -8,8 +8,7 @@ environment:
   sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
-  shared_theme:
-    path: ../shared_theme
+  shared_theme: ^0.0.1
   flutter:
     sdk: flutter
 

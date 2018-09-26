@@ -1,13 +1,15 @@
 /// Flutter plugin to easily share a theme between Flutter and the web.
 ///
-/// It is recommended you import this library using the `as` directive, e.g.
-/// `import 'package:shared_theme_flutter/shared_theme_flutter' as themer;`
+/// It is recommended you import this library using 'as': `import ... as themer;`.
 library shared_theme_flutter;
 
 import 'package:flutter/material.dart';
 import 'package:shared_theme/shared_theme.dart' as sh;
 import 'package:shared_theme_flutter/src/util.dart';
 
+// Exporting shared_theme causes the documentation to be combined on pub,
+// but not exporting requires Flutter users to import both separately, each
+// with their own name (`as themer` and `as ...`).
 export 'package:shared_theme/shared_theme.dart';
 export 'package:shared_theme_flutter/src/util.dart';
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:sharedtheme_example/config.dart' show appName;
 // import 'package:sharedtheme_example/themes.dart' show themeset;
 import 'package:shared_theme_flutter/shared_theme_flutter.dart' as themer;
+import 'package:shared_preferences/shared_preferences.dart';
 
 const appName = 'Dummy Example';
 final themeset = themer.ThemeSet(themes: []);
@@ -19,7 +20,13 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    // Set a default theme synchronously. If you want to wait until the user's
+    // preferred theme is read from SharedPreferences, you'll need to show some
+    // UI to the user in the mean time, such as a spinner or a splash screen.
     _setTheme(themeset.themes.first);
+
+    // Lookup the preferred theme.
+    _readTheme();
   }
 
   @override
@@ -40,7 +47,8 @@ class _AppState extends State<App> {
       );
 
   void _setTheme(themer.Theme t) {
-    themer.currentTheme = theme = t;
+    theme = t;
+    themer.setTheme(t);
   }
 
   Widget _buildThemeSwitch() =>
@@ -51,10 +59,26 @@ class _AppState extends State<App> {
               theme.fonts.title, themer.contrastOf(theme.colors.primary)),
         ),
         Switch(
-            value: theme == themeset.themes.last,
-            onChanged: (enabled) => setState(() => _setTheme(
-                enabled ? themeset.themes.last : themeset.themes.first)))
+          value: theme.brightness == themer.Brightness.dark,
+          onChanged: (enabled) => _toggleTheme(),
+        )
       ]);
+
+  void _readTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      final name = prefs.getString('theme');
+      setState(() => _setTheme(themeset.getTheme(name)));
+    } catch (noSavedTheme) {}
+  }
+
+  void _toggleTheme() async {
+    setState(() => _setTheme(theme == themeset.themes.first
+        ? themeset.themes.last
+        : themeset.themes.first));
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('theme', theme.name);
+  }
 }
 
 class DemoItems extends StatelessWidget {

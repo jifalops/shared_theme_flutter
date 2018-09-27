@@ -13,11 +13,11 @@ import 'package:shared_theme_flutter/src/util.dart';
 export 'package:shared_theme/shared_theme.dart';
 export 'package:shared_theme_flutter/src/util.dart';
 
-/// Sets the current theme, which is used by [primaryButton()], [secondaryButton()],
-/// [tertiaryButton()], and [wrapInput()].
-void setTheme(sh.Theme theme) => _currentTheme = theme;
-sh.Theme get currentTheme => _currentTheme;
-sh.Theme _currentTheme;
+/// The current theme is used by [primaryButton()], [secondaryButton()],
+/// [tertiaryButton()], and [wrapInput()] to lookup the related elements.
+///
+/// This value should be set any time the app's theme changes.
+sh.Theme currentTheme;
 
 /// Transform a shared_theme's Theme into Flutter's ThemeData.
 ThemeData themeData(sh.Theme t, [TargetPlatform platform]) {

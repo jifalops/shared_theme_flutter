@@ -40,8 +40,7 @@ class _AppState extends State<App> {
       );
 
   void _setTheme(themer.Theme t) {
-    theme = t;
-    themer.setTheme(theme);
+    themer.currentTheme = theme = t;
   }
 
   Widget _buildThemeSwitch() =>

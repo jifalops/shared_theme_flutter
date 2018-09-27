@@ -8,7 +8,7 @@ environment:
   sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
-  shared_theme: ^0.1.1
+  shared_theme: ^0.1.2
   flutter:
     sdk: flutter
 

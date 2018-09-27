@@ -48,7 +48,7 @@ class _AppState extends State<App> {
 
   void _setTheme(themer.Theme t) {
     theme = t;
-    themer.setTheme(t);
+    themer.currentTheme = t;
   }
 
   Widget _buildThemeSwitch() =>
@@ -68,7 +68,7 @@ class _AppState extends State<App> {
     final prefs = await SharedPreferences.getInstance();
     try {
       final name = prefs.getString('theme');
-      setState(() => _setTheme(themeset.getTheme(name)));
+      setState(() => _setTheme(themeset.getThemeByName(name)));
     } catch (noSavedTheme) {}
   }
 

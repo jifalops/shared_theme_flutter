@@ -19,6 +19,10 @@ export 'package:shared_theme_flutter/src/util.dart';
 /// This value should be set any time the app's theme changes.
 sh.Theme currentTheme;
 
+/// Set [currentTheme] directly.
+@deprecated
+void setTheme(sh.Theme theme) => currentTheme = theme;
+
 /// Transform a shared_theme's Theme into Flutter's ThemeData.
 ThemeData themeData(sh.Theme t, [TargetPlatform platform]) {
   final base = t.brightness == sh.Brightness.light
